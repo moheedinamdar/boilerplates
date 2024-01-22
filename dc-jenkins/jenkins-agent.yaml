@@ -1,0 +1,63 @@
+# Jenkins Sandbox
+services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk21
+    container_name: jenkins_sandbox
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins_sandbox_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+  
+  # agent1:
+  #   image: jenkins/ssh-agent:jdk11
+  #   container_name: jenkins_sandbox_agent
+  #   privileged: true
+  #   user: root
+  #   expose:
+  #     - 22
+  #   environment:
+  #     - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBLIC_KEY}
+
+  agent2:
+    image: jenkins/jnlp-agent-python3
+    container_name: python3
+    privileged: true
+    user: root
+    expose:
+      - 22
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBLIC_KEY}
+  
+  # agent3:
+  #   image: jenkins/jnlp-agent-node
+  #   container_name: node
+  #   privileged: true
+  #   user: root
+  #   expose:
+  #     - 22
+  #   environment:
+  #     - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBLIC_KEY}
+  
+  # agent4:
+  #   image: jenkins/jnlp-agent-docker
+  #   container_name: docker
+  #   privileged: true
+  #   user: root
+  #   expose:
+  #     - 22
+  #   environment:
+  #     - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBLIC_KEY}
+
+  # agent5:
+  #   image: jenkins/jnlp-agent-terraform
+  #   container_name: terraform
+  #   privileged: true
+  #   user: root
+  #   expose:
+  #     - 22
+  #   environment:
+  #     - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBLIC_KEY}
